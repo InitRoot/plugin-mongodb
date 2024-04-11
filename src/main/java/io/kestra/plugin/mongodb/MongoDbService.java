@@ -27,6 +27,19 @@ public abstract class MongoDbService {
         }
     }
 
+    // utilised by the Aggregate to convert and MAP the bson query
+    public static Bson toBson(RunContext runContext, Object value) throws IllegalVariableEvaluationException, IOException {
+        if (value instanceof String) {
+            return Document.parse(runContext.render((String) value));
+        } else if (value instanceof Map) {
+            return Document.parse(JacksonMapper.ofJson().writeValueAsString(runContext.render((Map<String, Object>) value)));
+        } else if (value == null) {
+            return new BsonDocument();
+        } else {
+            throw new IllegalVariableEvaluationException("Invalid value type '" + value.getClass() + "'");
+        }
+    }
+
     public static Object map(BsonValue doc) {
         switch (doc.getBsonType()) {
             case NULL:
