@@ -5,6 +5,8 @@ import io.kestra.core.runners.RunContext;
 import io.kestra.core.serializers.JacksonMapper;
 import org.bson.BsonDocument;
 import org.bson.BsonValue;
+import org.bson.Document;
+import org.bson.conversions.Bson;
 
 import java.io.IOException;
 import java.time.Instant;
